@@ -6,6 +6,18 @@ type Weather = {
   main?: Main;
   name?: string;
   sys?: Sys;
+  weather?: WeatherDescription;
+};
+
+type WeatherDescription = {
+  0?: WeatherImage;
+};
+
+type WeatherImage = {
+  description?: string;
+  icon: string;
+  id: number;
+  main: string;
 };
 
 type Main = {
@@ -48,12 +60,25 @@ export const App: React.FC = () => {
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={search}
       />
-      {weather?.main && (
+      {weather.main && (
         <div className="city">
           <h2 className="city-name">
-            <span>{weather?.name}</span>
-            <sup>{weather?.sys?.country ?? ""}</sup>
+            <span>{weather.name ?? ""}</span>
+            <sup>{weather.sys?.country ?? ""}</sup>
           </h2>
+          <div className="city-temperature">
+            {Math.round(weather.main.temp)}
+            <sup>&deg;C</sup>
+          </div>
+          <div className="info">
+            <img
+              className="city-icon"
+              src={`https://openweathermap.org/img/wn/${"03n"}@2x.png` ?? ``}
+              // alt={weather.weather[0].description || ``}
+              alt="scattered clouds"
+            />
+            <p>scattered clouds</p>
+          </div>
         </div>
       )}
     </div>
